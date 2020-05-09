@@ -20,9 +20,13 @@ public class MesDefis extends Fragment {
     private static MesDefis sInstance = null;
     private Fragment fragmentMonDefi;
 
-    public static MesDefis newInstance() {
-        sInstance = new MesDefis();
-        return sInstance;
+    public static MesDefis getInstanceMesDefis() {
+        if(sInstance !=null) {
+            return sInstance;
+        } else {
+            sInstance = new MesDefis();
+            return sInstance;
+        }
     }
 
     @Override
@@ -54,7 +58,7 @@ public class MesDefis extends Fragment {
     }
 
     private void changeFragment(ItemDefi item) {
-        if(this.fragmentMonDefi == null) this.fragmentMonDefi = MonDefi.getDefi(item);
+        if(this.fragmentMonDefi == null) this.fragmentMonDefi = MonDefi.getDefi(item.getIndex());
         System.out.println("Mon défi:" + this.fragmentMonDefi);
         startTransactionFragment(this.fragmentMonDefi);
     }

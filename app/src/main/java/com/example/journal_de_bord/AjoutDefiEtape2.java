@@ -107,8 +107,8 @@ public class AjoutDefiEtape2 extends Fragment {
 
     private void changeFragment(Bundle bundleToSent) {
         // On envoie le bundle à la fois à la liste des défis et à la page "MonDéfi"
-        if(defisFragment == null) this.defisFragment = MesDefis.newInstance();
-        if(monDefiFragment == null) this.monDefiFragment = MonDefi.newInstance(bundleToSent.getInt("index"));
+        if(defisFragment == null) this.defisFragment = MesDefis.getInstanceMesDefis();
+        if(monDefiFragment == null) this.monDefiFragment = MonDefi.getDefi(bundleToSent.getInt("index"));
         this.defisFragment.setArguments(bundleToSent);
         this.monDefiFragment.setArguments(bundleToSent);
 

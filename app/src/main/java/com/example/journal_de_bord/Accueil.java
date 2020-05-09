@@ -141,10 +141,8 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
 
     private void showDefisFragment(){
         // Etape 1 : on récupère l'instance existante de MesDefis
-        this.mesDefisFragment = MesDefis.getInstance();
-        // Etape 2 : si l'instance existante vaut null c'est qu'il n'y a pas de défis : on crée une nouvelle instance
-        if (this.mesDefisFragment == null) this.mesDefisFragment = MesDefis.newInstance();
-        // Etape 3 : on montre le Fragment correspondant à la class "MesDéfis"
+        this.mesDefisFragment = MesDefis.getInstanceMesDefis();
+        // Etape 2 : on montre le Fragment correspondant à la class "MesDéfis"
         this.startTransactionFragment(this.mesDefisFragment);
     }
 

@@ -20,20 +20,17 @@ public class MonDefi extends Fragment {
     private int index = 0;
     static private Map<Integer,MonDefi> listeDefisMap = new HashMap<>();
 
-    public static MonDefi newInstance(int index) {
-        MonDefi monDefi = new MonDefi(index);
-        return monDefi;
-    }
 
     public MonDefi (int index) {
         this.index = index;
     }
 
-    public static MonDefi getDefi(ItemDefi item) {
-        if(listeDefisMap.containsKey(item.getIndex())) {
-            return listeDefisMap.get(item.getIndex());
+    public static MonDefi getDefi(int index) {
+        if(listeDefisMap.containsKey(index)) {
+            return listeDefisMap.get(index);
+        } else {
+            return new MonDefi(index);
         }
-        return null;
     }
 
     @Override
