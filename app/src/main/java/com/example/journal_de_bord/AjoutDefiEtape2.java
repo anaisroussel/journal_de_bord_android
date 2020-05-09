@@ -19,7 +19,6 @@ import java.text.SimpleDateFormat;
 
 public class AjoutDefiEtape2 extends Fragment {
 
-    private Fragment defisFragment;
     private Fragment monDefiFragment;
     private int index = 0;
 
@@ -107,9 +106,8 @@ public class AjoutDefiEtape2 extends Fragment {
 
     private void changeFragment(Bundle bundleToSent) {
         // On envoie le bundle à la fois à la liste des défis et à la page "MonDéfi"
-        if(defisFragment == null) this.defisFragment = MesDefis.getInstanceMesDefis();
-        if(monDefiFragment == null) this.monDefiFragment = MonDefi.getDefi(bundleToSent.getInt("index"));
-        this.defisFragment.setArguments(bundleToSent);
+        MesDefis.getInstanceMesDefis().addNewItemDefi(bundleToSent);
+        this.monDefiFragment = MonDefi.getDefi(bundleToSent.getInt("index"));
         this.monDefiFragment.setArguments(bundleToSent);
 
         this.startTransactionFragment(this.monDefiFragment);
@@ -117,7 +115,6 @@ public class AjoutDefiEtape2 extends Fragment {
 
     // Generic method that will replace and show a fragment inside the AccueilActivity Frame Layout
     private void startTransactionFragment(Fragment fragment) {
-        System.out.println(fragment);
         if (!fragment.isVisible()) {
             // on remplace l'ancien fragment par le nouveau
             getFragmentManager().beginTransaction().addToBackStack(null)

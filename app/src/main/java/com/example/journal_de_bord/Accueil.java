@@ -140,8 +140,9 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
     }
 
     private void showDefisFragment(){
-        // Etape 1 : on récupère l'instance existante de MesDefis
+        // Etape 1 : on récupère l'instance de MesDefis
         this.mesDefisFragment = MesDefis.getInstanceMesDefis();
+        System.out.println("Je suis dans le fragment accueil et j'ai ca comme Défis :"+ this.mesDefisFragment);
         // Etape 2 : on montre le Fragment correspondant à la class "MesDéfis"
         this.startTransactionFragment(this.mesDefisFragment);
     }

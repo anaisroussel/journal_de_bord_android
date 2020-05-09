@@ -26,10 +26,16 @@ public class MonDefi extends Fragment {
     }
 
     public static MonDefi getDefi(int index) {
+        System.out.println("on cherche le défi:"+ index);
         if(listeDefisMap.containsKey(index)) {
+            System.out.println("on a tyrouvé ca :"+ listeDefisMap.get(index));
             return listeDefisMap.get(index);
         } else {
-            return new MonDefi(index);
+            MonDefi monDefi = new MonDefi(index);
+            listeDefisMap.put(index, monDefi);
+            System.out.println("La liste de mes défis :"+listeDefisMap);
+            System.out.println("Mon défi c'est so :"+monDefi);
+            return monDefi;
         }
     }
 
@@ -60,7 +66,6 @@ public class MonDefi extends Fragment {
             this.setIndex(bundle.getInt("index"));
             textViewTitre.setText(bundle.getString("titre"));
             textViewDate.setText(bundle.getString("date"));
-            System.out.println(bundle.getString("etSwitch"));
             if(bundle.getString("etSwitch") != null && !bundle.getString("etSwitch").isEmpty()) {
                 // rendre les champs visibles
                 switchTextView.setVisibility(View.VISIBLE);
@@ -81,10 +86,8 @@ public class MonDefi extends Fragment {
                 ratingBar.setVisibility(View.VISIBLE);
                 // remplir les valeurs
                 ratingBarTextView.setText(bundle.getString("etRatingBar"));
-                System.out.println(bundle.getFloat("ratingBar"));
                 ratingBar.setRating(bundle.getFloat("ratingBar"));
             }
-            listeDefisMap.put(this.index,this);
         }
         return rootView;
     }

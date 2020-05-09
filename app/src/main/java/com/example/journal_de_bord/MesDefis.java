@@ -36,11 +36,12 @@ public class MesDefis extends Fragment {
         sInstance = this;
 
         Bundle bundle = this.getArguments();
+        System.out.println("Voici le bundle passé :"+bundle);
 
         mListView = (ListView) rootView.findViewById(R.id.listDefis);
-        // On vérifie que le bundle n'est ni null ni vide
+        // On vérifie que le bundle n'est ni null ni vide et qu'un défi n'existe pas déja avec l'index reçu par le bundle
         if(bundle != null && !bundle.isEmpty()) {
-            this.defis = addNewItemDefi(bundle);
+            addNewItemDefi(bundle);
         }
         DefiAdapter adapter = new DefiAdapter(getActivity(), this.defis);
         mListView.setAdapter(adapter);
@@ -56,22 +57,28 @@ public class MesDefis extends Fragment {
 
         return rootView;
     }
+    // addNewDefi(MonDefi)
 
     private void changeFragment(ItemDefi item) {
-        if(this.fragmentMonDefi == null) this.fragmentMonDefi = MonDefi.getDefi(item.getIndex());
-        System.out.println("Mon défi:" + this.fragmentMonDefi);
+        this.fragmentMonDefi = MonDefi.getDefi(item.getIndex());
+        System.out.println("Mon nouveau défi:" + this.fragmentMonDefi + "avec l'index"+ item.getIndex());
         startTransactionFragment(this.fragmentMonDefi);
     }
 
-    private List<ItemDefi> addNewItemDefi(Bundle bundle){
+    public void addNewItemDefi(Bundle bundle){
         System.out.println("La date c'est :"+bundle.get("date"));
+        // on vérifie que defis ne contient pas déja un ItemDefi avec cet index
+        for(ItemDefi itemDefi : defis) {
+            if(itemDefi.getIndex() == bundle.getInt("index")) {
+                return;
+            }
+        }
         defis.add(new ItemDefi(bundle.getString("date"), bundle.getString("titre"), bundle.getInt("index")));
-        return defis;
+
     }
 
     // Generic method that will replace and show a fragment inside the AccueilActivity Frame Layout
     private void startTransactionFragment(Fragment fragment) {
-        System.out.println(fragment);
         if (!fragment.isVisible()) {
             // on remplace l'ancien fragment par le nouveau
             getFragmentManager().beginTransaction().addToBackStack(null)

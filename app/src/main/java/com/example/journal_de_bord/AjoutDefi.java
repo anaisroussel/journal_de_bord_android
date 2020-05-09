@@ -156,7 +156,6 @@ public class AjoutDefi extends Fragment {
 
     // Generic method that will replace and show a fragment inside the AccueilActivity Frame Layout
     private void startTransactionFragment(Fragment fragment) {
-        System.out.println(fragment);
         if (!fragment.isVisible()) {
             // on remplace l'ancien fragment par le nouveau
             getFragmentManager().beginTransaction().addToBackStack(null)
