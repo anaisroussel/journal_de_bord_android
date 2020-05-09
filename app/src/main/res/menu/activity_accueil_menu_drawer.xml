@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/activity_main_drawer_accueil"
+            android:icon="@drawable/settings_application"
+            android:title="Accueil" />
+    </group>
+
+    <item android:title="Configuration">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/activity_main_drawer_profile"
+                    android:icon="@drawable/account_box"
+                    android:title="Profil" />
+                <item
+                    android:id="@+id/activity_main_drawer_settings"
+                    android:icon="@drawable/settings_application"
+                    android:title="Paramètres" />
+            </group>
+        </menu>
+    </item>
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/activity_accueil_drawer_addDefi"
+            android:icon="@drawable/dashboard"
+            android:title="Ajouter un défi">
+        </item>
+    </group>
+
+</menu>
