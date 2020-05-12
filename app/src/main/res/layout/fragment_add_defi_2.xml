@@ -4,7 +4,7 @@
     android:id="@+id/createDefi"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e6e6ff"
+    android:background="@drawable/marbre_wallpaper"
     tools:context=".AjoutDefiEtape2">
 
     <Spinner

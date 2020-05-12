@@ -4,14 +4,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
-    android:background="#B2B9E1"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/marbre_wallpaper">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/boussole" />
+    <android.widget.TextClock
+    android:id="@+id/dateClock"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:format24Hour="dd MMM yyyy k:mm"
+    android:format12Hour="@null"
+    android:fontFamily="@font/custom_font"
+    android:textSize="40sp"
+    />
 
 </LinearLayout>

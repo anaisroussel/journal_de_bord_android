@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "130440951770",
+    "firebase_url": "https://journaldebord-ig2i-2020.firebaseio.com",
+    "project_id": "journaldebord-ig2i-2020",
+    "storage_bucket": "journaldebord-ig2i-2020.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130440951770:android:364ab03a3d4cb6e61ab2e3",
+        "android_client_info": {
+          "package_name": "com.example.journal_de_bord"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "130440951770-5mu9a6bqfiscafp1r32e6niqdiqp985j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.journal_de_bord",
+            "certificate_hash": "db56d5eceffb957d211a3cfc6f1b87a934172c4b"
+          }
+        },
+        {
+          "client_id": "130440951770-srpbjgnju9k6ko0lm92kv4b6fpcjue9l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARK3ZTI0vg8-ZFFI5Gk8hyyYWM-xFjNow"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "130440951770-srpbjgnju9k6ko0lm92kv4b6fpcjue9l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -4,20 +4,22 @@
     android:id="@+id/fragment_news_rootview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e6e6ff"
     android:gravity="center"
     android:orientation="horizontal"
-    tools:context=".AjoutDefi">
+    tools:context=".AjoutDefi"
+    android:background="@drawable/marbre_wallpaper">
+    <!--android:background="#e6e6ff"-->
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="199dp"
-        android:layout_height="50dp"
+        android:layout_width="212dp"
+        android:layout_height="80dp"
         android:layout_marginStart="83dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="83dp"
-        android:text="Ajouter un défi"
-        android:textSize="30sp"
+        android:fontFamily="@font/custom_font"
+        android:text=" Ajouter un defi"
+        android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +30,7 @@
         android:layout_width="206dp"
         android:layout_height="46dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3"></EditText>
 
@@ -47,7 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="Quel nom pour votre défi?"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"></TextView>
@@ -96,7 +98,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="32dp"
         android:entries="@array/note"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ratingBarDynamically"></Spinner>
@@ -172,7 +174,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="26dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switchDynamically" />
 
@@ -180,7 +182,7 @@
         android:id="@+id/etRatingBar"
         android:layout_width="181dp"
         android:layout_height="46dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="60dp"
         android:hint="Nom de l'indicateur"
         app:layout_constraintEnd_toEndOf="parent"
@@ -190,7 +192,7 @@
         android:id="@+id/etSpinner"
         android:layout_width="181dp"
         android:layout_height="46dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="60dp"
         android:hint="Nom de l'indicateur"
         app:layout_constraintEnd_toEndOf="parent"

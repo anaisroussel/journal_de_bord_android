@@ -39,6 +39,12 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accueil);
 
+        // On met le fragment Accueil par défaut
+        if(savedInstanceState == null) {
+            getSupportFragmentManager().
+                    beginTransaction().replace(R.id.activity_accueil_frame_layout,new AccueilFragment()).commit();
+        }
+
         // Configure all views
 
         this.configureToolBar();

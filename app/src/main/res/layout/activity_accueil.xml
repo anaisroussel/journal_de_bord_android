@@ -16,25 +16,19 @@
         >
 
         <!-- Toolbar -->
-
-        <!-- FrameLayout for our fragments -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/activity_accueil_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#B2B9E1"
+            android:background="@color/colorPrimary"
             app:theme="@style/ToolBarStyle">
         </androidx.appcompat.widget.Toolbar>
 
+        <!-- FrameLayout for our fragments -->
         <FrameLayout
             android:id="@+id/activity_accueil_frame_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <fragment
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:name="com.example.journal_de_bord.AccueilFragment">
-            </fragment>
         </FrameLayout>
 
     </LinearLayout>
