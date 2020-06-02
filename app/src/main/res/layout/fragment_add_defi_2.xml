@@ -72,7 +72,7 @@
         android:layout_marginTop="16dp"
         android:text="Aperçu de votre défi :"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/descriptionAddDefi2" />
 
     <Switch
         android:id="@+id/switchEtape2"
@@ -133,7 +133,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/descriptionAddDefi2"
         android:layout_width="299dp"
         android:layout_height="87dp"
         android:layout_marginStart="24dp"

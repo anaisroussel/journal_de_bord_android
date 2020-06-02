@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Profile"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:id="@+id/linearLayout">
+
+    <!-- USER DATA CONTAINER -->
+
+        <!-- PROFILE USERNAME -->
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_large_margin"
+            android:gravity="center">
+
+            <!-- FIREBASE IMAGE -->
+
+            <!-- PROGRESS BAR -->
+
+    <ImageView
+        android:layout_width="110dp"
+        android:layout_height="157dp"
+        android:layout_marginStart="39dp"
+        android:layout_marginBottom="48dp"
+        android:background="@drawable/boussole"
+        app:layout_constraintBottom_toTopOf="@+id/profile_activity_edit_text_username"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/profile_activity_progress_bar"
+        android:layout_width="30dip"
+        android:layout_height="30dip"
+        android:layout_margin="@dimen/default_large_margin"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- PROFILE IMAGE -->
+
+
+    <!-- PROFILE EMAIL CONTAINER -->
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/default_margin">
+
+    <ImageView
+        android:id="@+id/profile_activity_imageview_profile"
+        android:layout_width="130dp"
+        android:layout_height="138dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="56dp"
+        app:layout_constraintBottom_toTopOf="@+id/profile_activity_edit_text_username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/common_google_signin_btn_icon_light" />
+
+    <EditText
+        android:id="@+id/profile_activity_edit_text_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/text_input_username"
+        android:textSize="@dimen/default_text_size"
+        app:layout_constraintBottom_toTopOf="@+id/textView12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- PROFILE EMAIL -->
+
+
+    <!-- BUTTON UPDATE USERNAME -->
+
+    <!-- BUTTON SIGN OUT -->
+
+    <!-- BUTTON DELETE ACCOUNT -->
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="17dp"
+        android:text="@string/text_view_email"
+        android:textSize="@dimen/default_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/profile_activity_text_view_email"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/profile_activity_text_view_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="165dp"
+        android:paddingLeft="@dimen/default_margin"
+        android:textSize="@dimen/default_text_size"
+        app:layout_constraintBottom_toTopOf="@+id/profile_activity_button_update"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/profile_activity_button_update"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/button_radius_primary_color"
+        android:padding="@dimen/default_margin"
+        android:text="@string/button_update_account"
+        android:textColor="#fff"
+        android:textSize="@dimen/default_text_size"
+        app:layout_constraintBottom_toTopOf="@+id/profile_activity_button_sign_out"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/profile_activity_button_sign_out"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        android:layout_marginBottom="55dp"
+        android:background="@drawable/button_radius_accent_color"
+        android:padding="@dimen/default_margin"
+        android:text="@string/button_sign_out_account"
+        android:textColor="#fff"
+        android:textSize="@dimen/default_text_size"
+        app:layout_constraintBottom_toTopOf="@+id/profile_activity_button_delete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/profile_activity_button_delete"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/button_radius_error_color"
+        android:padding="@dimen/default_margin"
+        android:text="@string/button_delete_account"
+        android:textColor="#fff"
+        android:textSize="@dimen/default_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

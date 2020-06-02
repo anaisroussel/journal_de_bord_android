@@ -14,8 +14,12 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.journal_de_bord.api.DefiHelper;
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class AjoutDefiEtape2 extends Fragment {
 
@@ -41,6 +45,7 @@ public class AjoutDefiEtape2 extends Fragment {
         final RatingBar ratingBar = rootView.findViewById(R.id.ratingBarEtape2);
         final Switch switchEtape2 = rootView.findViewById(R.id.switchEtape2);
         final Spinner spinnerEtape2 = rootView.findViewById(R.id.spinnerEtape2);
+        final EditText description = rootView.findViewById(R.id.descriptionAddDefi2);
         final Bundle bundleToSent = new Bundle();
 
         final Bundle bundle = this.getArguments();
@@ -62,11 +67,22 @@ public class AjoutDefiEtape2 extends Fragment {
             public void onClick(View v) {
                 // Récupération de la date
                 String date = editTextDate.getText().toString();
+                Date dateFormatDate = null;
+                try {
+                    dateFormatDate = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                // Récupération de la descriiption
+                String descriptionText = description.getText().toString();
                 if(date != null && !date.isEmpty() && isValidDate(date)) {
                     bundleToSent.putString("date", date);
-                    sendDatastoMonDefi(index, bundle, bundleToSent, switchEtape2, ratingBar, spinnerEtape2);
+                    sendDatastoMonDefi(index, bundle, bundleToSent, switchEtape2, ratingBar, spinnerEtape2, descriptionText);
                     changeFragment(bundleToSent);
-                    System.out.println("mon index :" + index);
+                    System.out.println("Mon bundle :"+ bundleToSent);
+                    // insertion en BDD
+                    insertDefiInDatabase(Integer.toString(index),dateFormatDate,description.getText().toString(),bundleToSent);
+
                     index ++;
                 } else {
                     Toast.makeText(getActivity(),"Veuillez entrer une date au format JJ/MM/AAAA",Toast.LENGTH_SHORT).show();
@@ -151,16 +167,38 @@ public class AjoutDefiEtape2 extends Fragment {
         }
     }
 
-    private void sendDatastoMonDefi(int index, Bundle bundle, Bundle bundleToSent, Switch switchEtape2, RatingBar ratingBar, Spinner spinnerEtape2) {
+    private void sendDatastoMonDefi(int index, Bundle bundle, Bundle bundleToSent, Switch switchEtape2, RatingBar ratingBar, Spinner spinnerEtape2, String description) {
         bundleToSent.putInt("index", index);
 
-        addStringDataInBundle(bundleToSent, "etSwitch", bundle.getString("etSwitch"));
-        addBooleanDataInBundle(bundleToSent, "switchValue", switchEtape2.isChecked());
+        if(switchEtape2.getVisibility() == View.VISIBLE) {
+            addStringDataInBundle(bundleToSent, "etSwitch", bundle.getString("etSwitch"));
+            addBooleanDataInBundle(bundleToSent, "switchValue", switchEtape2.isChecked());
+        }
 
-        addStringDataInBundle(bundleToSent, "etRatingBar", bundle.getString("etRatingBar"));
-        addFloatDataInBundle(bundleToSent,"ratingBar", ratingBar.getRating());
+        if(ratingBar.getVisibility() == View.VISIBLE) {
+            addStringDataInBundle(bundleToSent, "etRatingBar", bundle.getString("etRatingBar"));
+            addFloatDataInBundle(bundleToSent,"ratingBar", ratingBar.getRating());
+        }
 
-        addStringDataInBundle(bundleToSent, "etSpinner", bundle.getString("etSpinner"));
-        addStringDataInBundle(bundleToSent, "spinner", spinnerEtape2.getSelectedItem().toString());
+        if(spinnerEtape2.getVisibility() == View.VISIBLE) {
+            addStringDataInBundle(bundleToSent, "etSpinner", bundle.getString("etSpinner"));
+            addStringDataInBundle(bundleToSent, "spinner", spinnerEtape2.getSelectedItem().toString());
+        }
+
+        addStringDataInBundle(bundleToSent, "description", description);
     }
+
+    private void insertDefiInDatabase(String id, Date date, String description, Bundle bundle) {
+
+        boolean indicSwitch = bundle.getString("etSwitch") !=null;
+        boolean indicRatingBar = bundle.getString("etRatingBar") !=null;
+        boolean indicSpinner = bundle.getString("etSpinner") !=null ;
+
+        String nomIndicSwitch = indicSwitch ? bundle.getString("etSwitch"): null;
+        String nomIndicRatingBar = indicRatingBar ? bundle.getString("etRatingBar") : null;
+        String nomIndicSpinner = indicSpinner ? bundle.getString("etSpinner"): null;
+        DefiHelper.createDefi(id,date,description,bundle.getString("titre"),indicSwitch,indicRatingBar,indicSpinner,nomIndicSwitch,nomIndicRatingBar,nomIndicSpinner, getCurrentUserId());
+    }
+
+    protected String getCurrentUserId(){ return FirebaseAuth.getInstance().getCurrentUser().getUid(); }
 }

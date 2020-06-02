@@ -21,6 +21,7 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Fragment addDefiFragment;
+    private Fragment profileFragment;
     private Fragment accueilFragment;
     private Fragment mesDefisFragment;
 
@@ -29,6 +30,7 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
     private static final int FRAGMENT_ADD_DEFI = 0;
     private static final int FRAGMENT_ACCUEIL = 1;
     private static final int FRAGMENT_PARAMS = 2;
+    private static final int FRAGMENT_PROFILE = 3;
 
     public static Accueil newInstance() {
         return (new Accueil());
@@ -102,6 +104,8 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
             case R.id.activity_main_drawer_settings:
                 this.showFragment(FRAGMENT_PARAMS);
                 break;
+            case R.id.activity_main_drawer_profile:
+                this.showFragment(FRAGMENT_PROFILE);
             default:
                 break;
         }
@@ -128,6 +132,9 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
             case FRAGMENT_PARAMS:
                 //this.showParamsFragment();
                 break;
+            case FRAGMENT_PROFILE:
+                this.showProfileFragment();
+                break;
             default:
                 break;
         }
@@ -138,6 +145,11 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
     private void showNewsFragment(){
         if (this.addDefiFragment == null) this.addDefiFragment = AjoutDefi.newInstance();
         this.startTransactionFragment(this.addDefiFragment);
+    }
+
+    private void showProfileFragment(){
+        if (this.profileFragment == null) this.profileFragment = Profile.newInstance();
+        this.startTransactionFragment(this.profileFragment);
     }
 
     private void showAccueilFragment(){
