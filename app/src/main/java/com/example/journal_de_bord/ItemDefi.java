@@ -2,18 +2,20 @@ package com.example.journal_de_bord;
 
 import androidx.fragment.app.Fragment;
 
-public class ItemDefi extends Fragment {
-    private String date;
-    private String titre;
-    private int index;
+import java.util.Date;
 
-    public ItemDefi(String date, String titre, int index) {
+public class ItemDefi extends Fragment {
+    private Date date;
+    private String titre;
+    private String index;
+
+    public ItemDefi(Date date, String titre, String index) {
         this.date = date;
         this.titre = titre;
         this.index = index;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
@@ -21,11 +23,8 @@ public class ItemDefi extends Fragment {
         return titre;
     }
 
-    public int getIndex() {
+    public String getIndex() {
         return index;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
-    }
 }

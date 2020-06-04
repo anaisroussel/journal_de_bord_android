@@ -7,75 +7,83 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.core.util.Consumer;
 import androidx.fragment.app.Fragment;
+
+import com.example.journal_de_bord.api.DefiHelper;
+import com.example.journal_de_bord.models.Defi;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MesDefis extends Fragment {
 
-    private ListView mListView;
-    private List<ItemDefi> defis = new ArrayList<>();
-    // Singleton instance : on la crée pour pouvoir récupérer une instance et éviter de l'écraser par une nouvelle vide
-    private static MesDefis sInstance = null;
-    private Fragment fragmentMonDefi;
-
-    public static MesDefis getInstanceMesDefis() {
-        if(sInstance !=null) {
-            return sInstance;
-        } else {
-            sInstance = new MesDefis();
-            return sInstance;
-        }
+    public static MesDefis newInstance() {
+        return (new MesDefis());
     }
+
+    private ListView mListView;
+    private List<ItemDefi> itemDefis = new ArrayList<>();
+    private Fragment fragmentMonDefi;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_mes_defis, container, false);
 
-        sInstance = this;
+        //sInstance = this;
 
         Bundle bundle = this.getArguments();
         System.out.println("Voici le bundle passé :"+bundle);
 
         mListView = (ListView) rootView.findViewById(R.id.listDefis);
         // On vérifie que le bundle n'est ni null ni vide et qu'un défi n'existe pas déja avec l'index reçu par le bundle
-        if(bundle != null && !bundle.isEmpty()) {
+        /*if(bundle != null && !bundle.isEmpty()) {
             addNewItemDefi(bundle);
-        }
-        DefiAdapter adapter = new DefiAdapter(getActivity(), this.defis);
-        mListView.setAdapter(adapter);
-
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        }*/
+        System.out.println("avant recup :" + this.itemDefis);
+        DefiHelper.getMesDefis(getCurrentUserId(), this, this.itemDefis, new Consumer<List<ItemDefi>>() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                ItemDefi item = (ItemDefi) mListView.getItemAtPosition(position);
-                changeFragment(item);
-                Toast.makeText(getActivity(),"You selected : " + item.getIndex(),Toast.LENGTH_SHORT).show();
+            public void accept(final List<ItemDefi> itemDefis) {
+                System.out.println("après recup :" + itemDefis);
+                DefiAdapter adapter = new DefiAdapter(getActivity(), itemDefis);
+                mListView.setAdapter(adapter);
+
+                mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                        ItemDefi item = (ItemDefi) mListView.getItemAtPosition(position);
+                        changeFragment(itemDefis.get(position).getIndex());
+                    }
+                });
             }
         });
 
         return rootView;
     }
-    // addNewDefi(MonDefi)
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        System.out.println("destroyed");
+        this.itemDefis = new ArrayList<>();
+    }
 
-    private void changeFragment(ItemDefi item) {
-        this.fragmentMonDefi = MonDefi.getDefi(item.getIndex());
-        System.out.println("Mon nouveau défi:" + this.fragmentMonDefi + "avec l'index"+ item.getIndex());
+    private void changeFragment(String id) {
+        this.fragmentMonDefi = new MonDefi(id);
+        System.out.println("Mon nouveau défi:" + this.fragmentMonDefi + "avec l'index"+ id);
         startTransactionFragment(this.fragmentMonDefi);
     }
 
-    public void addNewItemDefi(Bundle bundle){
-        System.out.println("La date c'est :"+bundle.get("date"));
+    /*public void addNewItemDefi(Bundle bundle){
         // on vérifie que defis ne contient pas déja un ItemDefi avec cet index
-        for(ItemDefi itemDefi : defis) {
+        for(ItemDefi itemDefi : itemDefis) {
             if(itemDefi.getIndex() == bundle.getInt("index")) {
                 return;
             }
         }
-        defis.add(new ItemDefi(bundle.getString("date"), bundle.getString("titre"), bundle.getInt("index")));
+        itemDefis.add(new ItemDefi(bundle.getString("date"), bundle.getString("titre"), bundle.getInt("index")));
 
-    }
+    }*/
 
     // Generic method that will replace and show a fragment inside the AccueilActivity Frame Layout
     private void startTransactionFragment(Fragment fragment) {
@@ -86,10 +94,26 @@ public class MesDefis extends Fragment {
         }
     }
 
-    // Getter to access Singleton instance
-    public static MesDefis getInstance() {
-        return sInstance ;
+    /**
+     * Méthode qui retourne une liste d'ItemDefi depuis une liste de défis
+     * @param defis la liste des défis
+     * @return la liste des ItemDefis
+     */
+    public List<ItemDefi> addAllDefis(List<Defi> defis) {
+        if(!defis.isEmpty()) {
+            for(Defi defi : defis) {
+                this.itemDefis.add(new ItemDefi(defi.getDate(),defi.getTitle(),defi.getId()));
+            }
+        }
+        System.out.println("addAllDefis : "+ this.itemDefis);
+        return this.itemDefis;
     }
+
+    public List<ItemDefi> getItemDefis() {
+        return itemDefis;
+    }
+
+    protected String getCurrentUserId(){ return FirebaseAuth.getInstance().getCurrentUser().getUid(); }
 }
 
 

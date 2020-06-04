@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.journal_de_bord.api.DefiHelper;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,7 +26,6 @@ import java.util.Date;
 public class AjoutDefiEtape2 extends Fragment {
 
     private Fragment monDefiFragment;
-    private int index = 0;
 
     public static AjoutDefiEtape2 newInstance() {
         return (new AjoutDefiEtape2());
@@ -77,13 +78,12 @@ public class AjoutDefiEtape2 extends Fragment {
                 String descriptionText = description.getText().toString();
                 if(date != null && !date.isEmpty() && isValidDate(date)) {
                     bundleToSent.putString("date", date);
-                    sendDatastoMonDefi(index, bundle, bundleToSent, switchEtape2, ratingBar, spinnerEtape2, descriptionText);
-                    changeFragment(bundleToSent);
+                    sendDatastoMonDefi(bundle, bundleToSent, switchEtape2, ratingBar, spinnerEtape2, descriptionText);
                     System.out.println("Mon bundle :"+ bundleToSent);
                     // insertion en BDD
-                    insertDefiInDatabase(Integer.toString(index),dateFormatDate,description.getText().toString(),bundleToSent);
+                    String key = insertDefiInDatabase(dateFormatDate,description.getText().toString(),bundleToSent);
+                    changeFragment(bundleToSent, key);
 
-                    index ++;
                 } else {
                     Toast.makeText(getActivity(),"Veuillez entrer une date au format JJ/MM/AAAA",Toast.LENGTH_SHORT).show();
                 }
@@ -120,10 +120,10 @@ public class AjoutDefiEtape2 extends Fragment {
         }
     }
 
-    private void changeFragment(Bundle bundleToSent) {
+    private void changeFragment(Bundle bundleToSent, String key) {
         // On envoie le bundle à la fois à la liste des défis et à la page "MonDéfi"
-        MesDefis.getInstanceMesDefis().addNewItemDefi(bundleToSent);
-        this.monDefiFragment = MonDefi.getDefi(bundleToSent.getInt("index"));
+        //MesDefis.getInstanceMesDefis().addNewItemDefi(bundleToSent);
+        this.monDefiFragment = new MonDefi(key);
         this.monDefiFragment.setArguments(bundleToSent);
 
         this.startTransactionFragment(this.monDefiFragment);
@@ -167,8 +167,7 @@ public class AjoutDefiEtape2 extends Fragment {
         }
     }
 
-    private void sendDatastoMonDefi(int index, Bundle bundle, Bundle bundleToSent, Switch switchEtape2, RatingBar ratingBar, Spinner spinnerEtape2, String description) {
-        bundleToSent.putInt("index", index);
+    private void sendDatastoMonDefi(Bundle bundle, Bundle bundleToSent, Switch switchEtape2, RatingBar ratingBar, Spinner spinnerEtape2, String description) {
 
         if(switchEtape2.getVisibility() == View.VISIBLE) {
             addStringDataInBundle(bundleToSent, "etSwitch", bundle.getString("etSwitch"));
@@ -188,17 +187,34 @@ public class AjoutDefiEtape2 extends Fragment {
         addStringDataInBundle(bundleToSent, "description", description);
     }
 
-    private void insertDefiInDatabase(String id, Date date, String description, Bundle bundle) {
+    private String insertDefiInDatabase(Date date, String description, Bundle bundle) {
+        boolean indicSwitch = false;
+        String nomIndicSwitch = "";
 
-        boolean indicSwitch = bundle.getString("etSwitch") !=null;
-        boolean indicRatingBar = bundle.getString("etRatingBar") !=null;
-        boolean indicSpinner = bundle.getString("etSpinner") !=null ;
+        float indicRatingBar = 0;
+        String indicSpinner = "";
 
-        String nomIndicSwitch = indicSwitch ? bundle.getString("etSwitch"): null;
-        String nomIndicRatingBar = indicRatingBar ? bundle.getString("etRatingBar") : null;
-        String nomIndicSpinner = indicSpinner ? bundle.getString("etSpinner"): null;
-        DefiHelper.createDefi(id,date,description,bundle.getString("titre"),indicSwitch,indicRatingBar,indicSpinner,nomIndicSwitch,nomIndicRatingBar,nomIndicSpinner, getCurrentUserId());
+        String nomIndicRatingBar = "";
+        String nomIndicSpinner = "";
+
+        if(bundle.getString("etSwitch") !=null) {
+            indicSwitch =  bundle.getBoolean("switchValue");
+            nomIndicSwitch = bundle.getString("etSwitch");
+        }
+
+        if(bundle.getString("etRatingbar") != null) {
+            indicRatingBar = bundle.getFloat("ratingBar");
+            nomIndicRatingBar = bundle.getString("etRatingBar");
+        }
+
+        if(bundle.getString("etSpinner") !=null) {
+            indicSpinner = bundle.getString("spinner");
+            nomIndicSpinner = bundle.getString("etSpinner");
+        }
+
+        return DefiHelper.createDefiReturnKey(date,description,bundle.getString("titre"),indicSwitch,indicRatingBar,indicSpinner,nomIndicSwitch,nomIndicRatingBar,nomIndicSpinner, getCurrentUserId());
     }
 
     protected String getCurrentUserId(){ return FirebaseAuth.getInstance().getCurrentUser().getUid(); }
+
 }

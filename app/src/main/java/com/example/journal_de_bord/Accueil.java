@@ -143,7 +143,7 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
     // 4 - Create each fragment page and show it
 
     private void showNewsFragment(){
-        if (this.addDefiFragment == null) this.addDefiFragment = AjoutDefi.newInstance();
+        this.addDefiFragment = AjoutDefi.newInstance();
         this.startTransactionFragment(this.addDefiFragment);
     }
 
@@ -159,7 +159,7 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
 
     private void showDefisFragment(){
         // Etape 1 : on récupère l'instance de MesDefis
-        this.mesDefisFragment = MesDefis.getInstanceMesDefis();
+        this.mesDefisFragment = MesDefis.newInstance();
         System.out.println("Je suis dans le fragment accueil et j'ai ca comme Défis :"+ this.mesDefisFragment);
         // Etape 2 : on montre le Fragment correspondant à la class "MesDéfis"
         this.startTransactionFragment(this.mesDefisFragment);

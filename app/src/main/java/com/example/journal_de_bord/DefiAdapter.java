@@ -10,8 +10,8 @@ import java.util.List;
 
 public class DefiAdapter extends ArrayAdapter<ItemDefi> {
 
-    public DefiAdapter(Context context, List<ItemDefi> tweets) {
-        super(context, 0, tweets);
+    public DefiAdapter(Context context, List<ItemDefi> itemDefis) {
+        super(context, 0, itemDefis);
     }
 
     @Override
@@ -21,23 +21,22 @@ public class DefiAdapter extends ArrayAdapter<ItemDefi> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_defi,parent, false);
         }
 
-        TweetViewHolder viewHolder = (TweetViewHolder) convertView.getTag();
+        ItemDefiViewHolder viewHolder = (ItemDefiViewHolder) convertView.getTag();
         if(viewHolder == null){
-            viewHolder = new TweetViewHolder();
+            viewHolder = new ItemDefiViewHolder();
             viewHolder.date = (TextView) convertView.findViewById(R.id.pseudo);
             viewHolder.titre = (TextView) convertView.findViewById(R.id.text);
             convertView.setTag(viewHolder);
         }
 
-        //getItem(position) va récupérer l'item [position] de la List<Tweet> tweets
         ItemDefi defi = getItem(position);
-        viewHolder.date.setText(defi.getDate());
+        viewHolder.date.setText(defi.getDate().toString());
         viewHolder.titre.setText(defi.getTitre());
 
         return convertView;
     }
 
-    private class TweetViewHolder{
+    private class ItemDefiViewHolder{
         public TextView date;
         public TextView titre;
 

@@ -10,38 +10,31 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.core.util.Consumer;
 import androidx.fragment.app.Fragment;
+
+
+import com.example.journal_de_bord.api.DefiHelper;
+import com.example.journal_de_bord.models.Defi;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class MonDefi extends Fragment {
 
-    private int index = 0;
-    static private Map<Integer,MonDefi> listeDefisMap = new HashMap<>();
+    private String id ;
+    private Defi defi;
+    static private Map<String,MonDefi> listeDefisMap = new HashMap<>();
 
 
-    public MonDefi (int index) {
-        this.index = index;
-    }
-
-    public static MonDefi getDefi(int index) {
-        System.out.println("on cherche le défi:"+ index);
-        if(listeDefisMap.containsKey(index)) {
-            System.out.println("on a tyrouvé ca :"+ listeDefisMap.get(index));
-            return listeDefisMap.get(index);
-        } else {
-            MonDefi monDefi = new MonDefi(index);
-            listeDefisMap.put(index, monDefi);
-            System.out.println("La liste de mes défis :"+listeDefisMap);
-            System.out.println("Mon défi c'est so :"+monDefi);
-            return monDefi;
-        }
+    public MonDefi (String id) {
+        this.id = id;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_mon_defi, container, false);
+
         /**
          * VARIABLES
          */
@@ -53,8 +46,10 @@ public class MonDefi extends Fragment {
         final RatingBar ratingBar = rootView.findViewById(R.id.ratingBarMonDefi);
         final Switch switchMonDefi = rootView.findViewById(R.id.switchMonDefi);
         final Spinner spinnerMonDefi = rootView.findViewById(R.id.spinnerMonDefi);
-        Bundle bundle = this.getArguments();
+        //Bundle bundle = this.getArguments();
 
+        textViewTitre.setVisibility(View.GONE);
+        textViewDate.setVisibility(View.GONE);
         switchTextView.setVisibility(View.GONE);
         spinnerTextView.setVisibility(View.GONE);
         ratingBarTextView.setVisibility(View.GONE);
@@ -62,35 +57,48 @@ public class MonDefi extends Fragment {
         spinnerMonDefi.setVisibility(View.GONE);
         ratingBar.setVisibility(View.GONE);
 
-        if(bundle != null) {
-            this.setIndex(bundle.getInt("index"));
-            textViewTitre.setText(bundle.getString("titre"));
-            textViewDate.setText(bundle.getString("date"));
-            if(bundle.getString("etSwitch") != null && !bundle.getString("etSwitch").isEmpty()) {
-                // rendre les champs visibles
-                switchTextView.setVisibility(View.VISIBLE);
-                switchMonDefi.setVisibility(View.VISIBLE);
-                // remplir les valeurs
-                switchTextView.setText(bundle.getString("etSwitch"));
-                switchMonDefi.setChecked(bundle.getBoolean("switchValue"));
+        /**
+         * Récupération du Defi en BDD
+         */
+        DefiHelper.getDefi(id, new Consumer<Defi>() {
+            @Override
+            public void accept(Defi myDefi) {
+                System.out.println("dans le accept, defi vaut"+myDefi);
+                defi = myDefi;
+                textViewTitre.setText(defi.getTitle());
+                textViewDate.setText(defi.getDate().toString());
+
+                textViewTitre.setVisibility(View.VISIBLE);
+                textViewDate.setVisibility(View.VISIBLE);
+
+                if(defi.getNomIndicateurSwitch() != null && !defi.getNomIndicateurSwitch().isEmpty()) {
+                    // rendre les champs visibles
+                    switchTextView.setVisibility(View.VISIBLE);
+                    switchMonDefi.setVisibility(View.VISIBLE);
+                    // remplir les valeurs
+                    switchTextView.setText(defi.getNomIndicateurSwitch());
+                    switchMonDefi.setChecked(defi.isIndicateurSwitch());
+                }
+                if(defi.getNomIndicateurSpinner() != null && !defi.getNomIndicateurSpinner().isEmpty()) {
+                    spinnerTextView.setVisibility(View.VISIBLE);
+                    spinnerMonDefi.setVisibility(View.VISIBLE);
+                    // remplir les valeurs
+                    spinnerTextView.setText(defi.getNomIndicateurSpinner());
+                    fillSpinnerValue(spinnerMonDefi, defi.getIndicateurSpinner());
+                }
+                if(defi.getNomIndicateurStars() != null && !defi.getNomIndicateurStars().isEmpty()) {
+                    ratingBarTextView.setVisibility(View.VISIBLE);
+                    ratingBar.setVisibility(View.VISIBLE);
+                    // remplir les valeurs
+                    ratingBarTextView.setText(defi.getNomIndicateurStars());
+                    ratingBar.setRating(defi.getIndicateurStars());
+                }
             }
-            if(bundle.getString("etSpinner") != null && !bundle.getString("etSpinner").isEmpty()) {
-                spinnerTextView.setVisibility(View.VISIBLE);
-                spinnerMonDefi.setVisibility(View.VISIBLE);
-                // remplir les valeurs
-                spinnerTextView.setText(bundle.getString("etSpinner"));
-                fillSpinnerValue(spinnerMonDefi, bundle.getString("spinner"));
-            }
-            if(bundle.getString("etRatingBar") != null && !bundle.getString("etRatingBar").isEmpty()) {
-                ratingBarTextView.setVisibility(View.VISIBLE);
-                ratingBar.setVisibility(View.VISIBLE);
-                // remplir les valeurs
-                ratingBarTextView.setText(bundle.getString("etRatingBar"));
-                ratingBar.setRating(bundle.getFloat("ratingBar"));
-            }
-        }
+        });
+
         return rootView;
     }
+
 
     private void fillSpinnerValue(Spinner spinner, String value) {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.note, android.R.layout.simple_spinner_item);
@@ -102,11 +110,4 @@ public class MonDefi extends Fragment {
         }
     }
 
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
-    }
 }
