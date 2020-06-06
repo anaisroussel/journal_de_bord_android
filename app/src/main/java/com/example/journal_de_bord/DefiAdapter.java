@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class DefiAdapter extends ArrayAdapter<ItemDefi> {
@@ -30,7 +33,9 @@ public class DefiAdapter extends ArrayAdapter<ItemDefi> {
         }
 
         ItemDefi defi = getItem(position);
-        viewHolder.date.setText(defi.getDate().toString());
+
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        viewHolder.date.setText(df.format(defi.getDate()));
         viewHolder.titre.setText(defi.getTitre());
 
         return convertView;

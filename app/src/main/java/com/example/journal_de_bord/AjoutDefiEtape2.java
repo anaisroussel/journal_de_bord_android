@@ -16,8 +16,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.journal_de_bord.api.DefiHelper;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,7 +45,6 @@ public class AjoutDefiEtape2 extends Fragment {
         final Switch switchEtape2 = rootView.findViewById(R.id.switchEtape2);
         final Spinner spinnerEtape2 = rootView.findViewById(R.id.spinnerEtape2);
         final EditText description = rootView.findViewById(R.id.descriptionAddDefi2);
-        final Bundle bundleToSent = new Bundle();
 
         final Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -55,12 +52,9 @@ public class AjoutDefiEtape2 extends Fragment {
             String titre = bundle.getString("titre");
             // Afficher le titre de l'espace
             espaceTitle.setText(titre);
-
             // Mise en page en fonction des éléments choisis dans "AjoutDéfi"
             miseEnPage(bundle, textViewSwitch, textViewSpinner, textViewRatingBar, ratingBar, switchEtape2, spinnerEtape2);
 
-            // ajout titre dans Bundle à envoyer à "Mes défis"
-            bundleToSent.putString("titre", titre);
         }
 
         createEspaceButton.setOnClickListener(new View.OnClickListener() {
@@ -77,12 +71,10 @@ public class AjoutDefiEtape2 extends Fragment {
                 // Récupération de la descriiption
                 String descriptionText = description.getText().toString();
                 if(date != null && !date.isEmpty() && isValidDate(date)) {
-                    bundleToSent.putString("date", date);
-                    sendDatastoMonDefi(bundle, bundleToSent, switchEtape2, ratingBar, spinnerEtape2, descriptionText);
-                    System.out.println("Mon bundle :"+ bundleToSent);
                     // insertion en BDD
-                    String key = insertDefiInDatabase(dateFormatDate,description.getText().toString(),bundleToSent);
-                    changeFragment(bundleToSent, key);
+                    String key = insertDefiInDatabase(dateFormatDate,description.getText().toString(),bundle, switchEtape2, spinnerEtape2, ratingBar);
+                    // changement de fragment : vers MonDefi créé
+                    changeFragment(key);
 
                 } else {
                     Toast.makeText(getActivity(),"Veuillez entrer une date au format JJ/MM/AAAA",Toast.LENGTH_SHORT).show();
@@ -120,12 +112,8 @@ public class AjoutDefiEtape2 extends Fragment {
         }
     }
 
-    private void changeFragment(Bundle bundleToSent, String key) {
-        // On envoie le bundle à la fois à la liste des défis et à la page "MonDéfi"
-        //MesDefis.getInstanceMesDefis().addNewItemDefi(bundleToSent);
+    private void changeFragment(String key) {
         this.monDefiFragment = new MonDefi(key);
-        this.monDefiFragment.setArguments(bundleToSent);
-
         this.startTransactionFragment(this.monDefiFragment);
     }
 
@@ -149,45 +137,7 @@ public class AjoutDefiEtape2 extends Fragment {
         return true;
     }
 
-    private void addStringDataInBundle(Bundle bundle, String key, String value) {
-        if(bundle != null) {
-            bundle.putString(key, value);
-        }
-    }
-
-    private void addFloatDataInBundle(Bundle bundle, String key, float value) {
-        if(bundle != null) {
-            bundle.putFloat(key, value);
-        }
-    }
-
-    private void addBooleanDataInBundle(Bundle bundle, String key, boolean value) {
-        if(bundle != null) {
-            bundle.putBoolean(key, value);
-        }
-    }
-
-    private void sendDatastoMonDefi(Bundle bundle, Bundle bundleToSent, Switch switchEtape2, RatingBar ratingBar, Spinner spinnerEtape2, String description) {
-
-        if(switchEtape2.getVisibility() == View.VISIBLE) {
-            addStringDataInBundle(bundleToSent, "etSwitch", bundle.getString("etSwitch"));
-            addBooleanDataInBundle(bundleToSent, "switchValue", switchEtape2.isChecked());
-        }
-
-        if(ratingBar.getVisibility() == View.VISIBLE) {
-            addStringDataInBundle(bundleToSent, "etRatingBar", bundle.getString("etRatingBar"));
-            addFloatDataInBundle(bundleToSent,"ratingBar", ratingBar.getRating());
-        }
-
-        if(spinnerEtape2.getVisibility() == View.VISIBLE) {
-            addStringDataInBundle(bundleToSent, "etSpinner", bundle.getString("etSpinner"));
-            addStringDataInBundle(bundleToSent, "spinner", spinnerEtape2.getSelectedItem().toString());
-        }
-
-        addStringDataInBundle(bundleToSent, "description", description);
-    }
-
-    private String insertDefiInDatabase(Date date, String description, Bundle bundle) {
+    private String insertDefiInDatabase(Date date, String description, Bundle bundle, Switch switchEtape2, Spinner spinnerEtape2, RatingBar ratingBar) {
         boolean indicSwitch = false;
         String nomIndicSwitch = "";
 
@@ -198,17 +148,17 @@ public class AjoutDefiEtape2 extends Fragment {
         String nomIndicSpinner = "";
 
         if(bundle.getString("etSwitch") !=null) {
-            indicSwitch =  bundle.getBoolean("switchValue");
+            indicSwitch =  switchEtape2.isChecked();
             nomIndicSwitch = bundle.getString("etSwitch");
         }
 
-        if(bundle.getString("etRatingbar") != null) {
-            indicRatingBar = bundle.getFloat("ratingBar");
+        if(bundle.getString("etRatingBar") != null) {
+            indicRatingBar = ratingBar.getRating();
             nomIndicRatingBar = bundle.getString("etRatingBar");
         }
 
         if(bundle.getString("etSpinner") !=null) {
-            indicSpinner = bundle.getString("spinner");
+            indicSpinner = spinnerEtape2.getSelectedItem().toString();
             nomIndicSpinner = bundle.getString("etSpinner");
         }
 

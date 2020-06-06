@@ -1,5 +1,6 @@
 package com.example.journal_de_bord;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.util.Consumer;
 import androidx.fragment.app.Fragment;
 
@@ -17,6 +19,9 @@ import androidx.fragment.app.Fragment;
 import com.example.journal_de_bord.api.DefiHelper;
 import com.example.journal_de_bord.models.Defi;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,15 +66,19 @@ public class MonDefi extends Fragment {
          * Récupération du Defi en BDD
          */
         DefiHelper.getDefi(id, new Consumer<Defi>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void accept(Defi myDefi) {
                 System.out.println("dans le accept, defi vaut"+myDefi);
                 defi = myDefi;
                 textViewTitre.setText(defi.getTitle());
-                textViewDate.setText(defi.getDate().toString());
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                textViewDate.setText(df.format(defi.getDate()));
 
                 textViewTitre.setVisibility(View.VISIBLE);
                 textViewDate.setVisibility(View.VISIBLE);
+
+                System.out.println("defi.getNomIndicSwitch = "+defi.getNomIndicateurSwitch());
 
                 if(defi.getNomIndicateurSwitch() != null && !defi.getNomIndicateurSwitch().isEmpty()) {
                     // rendre les champs visibles
