@@ -5,6 +5,7 @@ import androidx.core.util.Consumer;
 
 import com.example.journal_de_bord.ItemDefi;
 import com.example.journal_de_bord.MesDefis;
+import com.example.journal_de_bord.MesEspaces;
 import com.example.journal_de_bord.models.Defi;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,15 +36,17 @@ public class DefiHelper {
 
     // --- CREATE ---
 
-    public static Task<DocumentReference> createDefi(Date date, String description, String nom, boolean indic1, float indic2, String indic3, String nomIndic1, String nomIndic2, String nomIndic3, String idUser) {
+    public static Task<DocumentReference> createDefi(Date date, String description, String nom, String espace, boolean indic1, float indic2, String indic3, String nomIndic1, String nomIndic2, String nomIndic3, String idUser) {
         String key = DefiHelper.getRef().push().getKey();
-        Defi defiToCreate = new Defi(key, idUser, nom, description, indic1, indic2, indic3, date, nomIndic1, nomIndic2, nomIndic3);
+        Defi defiToCreate = new Defi(key, idUser, nom, espace, description, indic1, indic2, indic3, date, nomIndic1, nomIndic2, nomIndic3);
         return DefiHelper.getDefisCollection().add(defiToCreate);
     }
 
-    public static String createDefiReturnKey(Date date, String description, String nom, boolean indic1, float indic2, String indic3, String nomIndic1, String nomIndic2, String nomIndic3, String idUser) {
+    public static String createDefiReturnKey(Date date, String description, String espace,
+                                             String nom, boolean indic1, float indic2, String indic3,
+                                             String nomIndic1, String nomIndic2, String nomIndic3, String idUser) {
         String key = DefiHelper.getRef().push().getKey();
-        Defi defiToCreate = new Defi(key, idUser, nom, description, indic1, indic2, indic3, date, nomIndic1, nomIndic2, nomIndic3);
+        Defi defiToCreate = new Defi(key, idUser, nom, espace, description, indic1, indic2, indic3, date, nomIndic1, nomIndic2, nomIndic3);
         DefiHelper.getDefisCollection().add(defiToCreate);
         return key;
     }
@@ -99,4 +102,20 @@ public class DefiHelper {
                 });
     }
 
+    public static void getMesDefisByEspace(String idUser, String espace, final MesEspaces mesEspaces, final List<ItemDefi> itemDefis, final Consumer<List<ItemDefi>> callback) {
+        DefiHelper.getDefisCollection().whereEqualTo("iduser",idUser).whereEqualTo("espace",espace)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            // Convert the whole snapshot to a POJO list
+                            mesEspaces.addAllDefis(task.getResult().toObjects(Defi.class));
+                            callback.accept(itemDefis);
+                        } else {
+                            System.out.println("Error");
+                        }
+                    }
+                });
+    }
 }

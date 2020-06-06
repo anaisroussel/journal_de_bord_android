@@ -44,7 +44,6 @@ public class MesDefis extends Fragment {
                 mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                        ItemDefi item = (ItemDefi) mListView.getItemAtPosition(position);
                         changeFragment(itemDefis.get(position).getIndex());
                     }
                 });

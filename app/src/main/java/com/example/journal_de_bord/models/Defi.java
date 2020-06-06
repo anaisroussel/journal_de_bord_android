@@ -8,6 +8,7 @@ public class Defi {
     private String id;
     private String iduser;
     private String title;
+    private String espace;
     @Nullable private String description;
     private boolean indicateurSwitch;
     private float indicateurStars;
@@ -19,10 +20,11 @@ public class Defi {
 
     public Defi() {}
 
-    public Defi(String id, String iduser, String title, @Nullable String description, boolean indicateurSwitch, float indicateurStars, String indicateurSpinner, Date date, @Nullable String nomIndicateurSwitch, @Nullable String nomIndicateurStars, @Nullable String nomIndicateurSpinner) {
+    public Defi(String id, String iduser, String title, String espace, @Nullable String description, boolean indicateurSwitch, float indicateurStars, String indicateurSpinner, Date date, @Nullable String nomIndicateurSwitch, @Nullable String nomIndicateurStars, @Nullable String nomIndicateurSpinner) {
         this.id = id;
         this.iduser = iduser;
         this.title = title;
+        this.espace = espace;
         this.description = description;
         this.indicateurSwitch = indicateurSwitch;
         this.indicateurStars = indicateurStars;
@@ -89,5 +91,13 @@ public class Defi {
     @Nullable
     public String getNomIndicateurSpinner() {
         return nomIndicateurSpinner;
+    }
+
+    public String getEspace() {
+        return espace;
+    }
+
+    public void setEspace(String espace) {
+        this.espace = espace;
     }
 }

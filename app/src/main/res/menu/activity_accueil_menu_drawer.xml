@@ -26,12 +26,22 @@
         </menu>
     </item>
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/activity_accueil_drawer_addDefi"
-            android:icon="@drawable/dashboard"
-            android:title="Ajouter un défi">
-        </item>
-    </group>
+    <item android:title="Ajouts">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/activity_accueil_drawer_addDefi"
+                    android:icon="@drawable/dashboard"
+                    android:title="Ajouter un défi">
+                </item>
+                <item
+                    android:id="@+id/activity_accueil_drawer_addEspace"
+                    android:icon="@drawable/dashboard"
+                    android:title="Créer un espace">
+                </item>
+            </group>
+        </menu>
+    </item>
+
 
 </menu>

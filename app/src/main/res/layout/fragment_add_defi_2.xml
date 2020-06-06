@@ -11,7 +11,7 @@
         android:id="@+id/spinnerEtape2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:entries="@array/note"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,12 +21,9 @@
         android:id="@+id/ajoutEspaceEtape2"
         android:layout_width="252dp"
         android:layout_height="57dp"
-        android:layout_marginStart="83dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="83dp"
         android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></TextView>
 
@@ -35,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="Créer un espace"
+        android:text="Créer un défi"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -47,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="Ajouter une date"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ajoutEspaceEtape2" />
@@ -57,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="JJ/MM/AAA"
         android:inputType="date"
@@ -72,14 +69,14 @@
         android:layout_marginTop="16dp"
         android:text="Aperçu de votre défi :"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/descriptionAddDefi2" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerChoixEspace" />
 
     <Switch
         android:id="@+id/switchEtape2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="33dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
@@ -87,8 +84,8 @@
         android:id="@+id/textViewSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="176dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="16dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -97,27 +94,27 @@
         android:id="@+id/ratingBarEtape2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewRatingBar" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewSwitch" />
 
     <TextView
         android:id="@+id/textViewRatingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
+        android:layout_marginStart="22dp"
         android:layout_marginTop="24dp"
         android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ratingBarEtape2"
         app:layout_constraintTop_toBottomOf="@+id/textViewSwitch" />
 
     <TextView
         android:id="@+id/textViewSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="63dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/spinnerEtape2"
         app:layout_constraintTop_toBottomOf="@+id/ratingBarEtape2" />
@@ -134,10 +131,10 @@
 
     <EditText
         android:id="@+id/descriptionAddDefi2"
-        android:layout_width="299dp"
-        android:layout_height="87dp"
+        android:layout_width="304dp"
+        android:layout_height="64dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView11"></EditText>
 
@@ -150,5 +147,24 @@
         android:textSize="11sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/apercu" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="Dans quel espace voulez-vous ajouter ce défi?"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionAddDefi2" />
+
+    <Spinner
+        android:id="@+id/spinnerChoixEspace"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

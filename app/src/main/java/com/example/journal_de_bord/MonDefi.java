@@ -21,15 +21,11 @@ import com.example.journal_de_bord.models.Defi;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MonDefi extends Fragment {
 
     private String id ;
     private Defi defi;
-    static private Map<String,MonDefi> listeDefisMap = new HashMap<>();
 
 
     public MonDefi (String id) {
@@ -51,6 +47,7 @@ public class MonDefi extends Fragment {
         final RatingBar ratingBar = rootView.findViewById(R.id.ratingBarMonDefi);
         final Switch switchMonDefi = rootView.findViewById(R.id.switchMonDefi);
         final Spinner spinnerMonDefi = rootView.findViewById(R.id.spinnerMonDefi);
+        final TextView desciptionTextView = rootView.findViewById(R.id.descriptionMonDefi);
         //Bundle bundle = this.getArguments();
 
         textViewTitre.setVisibility(View.GONE);
@@ -61,6 +58,7 @@ public class MonDefi extends Fragment {
         switchMonDefi.setVisibility(View.GONE);
         spinnerMonDefi.setVisibility(View.GONE);
         ratingBar.setVisibility(View.GONE);
+        desciptionTextView.setVisibility(View.GONE);
 
         /**
          * Récupération du Defi en BDD
@@ -74,9 +72,11 @@ public class MonDefi extends Fragment {
                 textViewTitre.setText(defi.getTitle());
                 DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
                 textViewDate.setText(df.format(defi.getDate()));
+                desciptionTextView.setText(defi.getDescription());
 
                 textViewTitre.setVisibility(View.VISIBLE);
                 textViewDate.setVisibility(View.VISIBLE);
+                desciptionTextView.setVisibility(View.VISIBLE);
 
                 System.out.println("defi.getNomIndicSwitch = "+defi.getNomIndicateurSwitch());
 

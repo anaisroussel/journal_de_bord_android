@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
@@ -12,14 +13,19 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.util.Consumer;
 import androidx.fragment.app.Fragment;
 
 import com.example.journal_de_bord.api.DefiHelper;
+import com.example.journal_de_bord.api.EspaceHelper;
+import com.example.journal_de_bord.models.Espace;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class AjoutDefiEtape2 extends Fragment {
 
@@ -45,6 +51,7 @@ public class AjoutDefiEtape2 extends Fragment {
         final Switch switchEtape2 = rootView.findViewById(R.id.switchEtape2);
         final Spinner spinnerEtape2 = rootView.findViewById(R.id.spinnerEtape2);
         final EditText description = rootView.findViewById(R.id.descriptionAddDefi2);
+        final Spinner spinnerChoixEspace = rootView.findViewById(R.id.spinnerChoixEspace);
 
         final Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -56,6 +63,22 @@ public class AjoutDefiEtape2 extends Fragment {
             miseEnPage(bundle, textViewSwitch, textViewSpinner, textViewRatingBar, ratingBar, switchEtape2, spinnerEtape2);
 
         }
+
+        EspaceHelper.fillSpinnerWithEspaces(getCurrentUserId(), new Consumer<List<Espace>>() {
+            @Override
+            public void accept(final List<Espace> espaces) {
+                System.out.println("après recup :" + espaces);
+                // fill the spinner
+                List<String> spinnerArray =  new ArrayList<String>();
+                for(Espace espace : espaces) {
+                    spinnerArray.add(espace.getNom());
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                        getActivity(), android.R.layout.simple_spinner_item, spinnerArray);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerChoixEspace.setAdapter(adapter);
+            }
+        });
 
         createEspaceButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,9 +93,10 @@ public class AjoutDefiEtape2 extends Fragment {
                 }
                 // Récupération de la descriiption
                 String descriptionText = description.getText().toString();
+
                 if(date != null && !date.isEmpty() && isValidDate(date)) {
                     // insertion en BDD
-                    String key = insertDefiInDatabase(dateFormatDate,description.getText().toString(),bundle, switchEtape2, spinnerEtape2, ratingBar);
+                    String key = insertDefiInDatabase(dateFormatDate,descriptionText,bundle, switchEtape2, spinnerEtape2, ratingBar, spinnerChoixEspace);
                     // changement de fragment : vers MonDefi créé
                     changeFragment(key);
 
@@ -137,7 +161,8 @@ public class AjoutDefiEtape2 extends Fragment {
         return true;
     }
 
-    private String insertDefiInDatabase(Date date, String description, Bundle bundle, Switch switchEtape2, Spinner spinnerEtape2, RatingBar ratingBar) {
+    private String insertDefiInDatabase(Date date, String description, Bundle bundle, Switch switchEtape2,
+                                        Spinner spinnerEtape2, RatingBar ratingBar, Spinner spinnerChoixEspace) {
         boolean indicSwitch = false;
         String nomIndicSwitch = "";
 
@@ -162,7 +187,9 @@ public class AjoutDefiEtape2 extends Fragment {
             nomIndicSpinner = bundle.getString("etSpinner");
         }
 
-        return DefiHelper.createDefiReturnKey(date,description,bundle.getString("titre"),indicSwitch,indicRatingBar,indicSpinner,nomIndicSwitch,nomIndicRatingBar,nomIndicSpinner, getCurrentUserId());
+        return DefiHelper.createDefiReturnKey(date,description, spinnerChoixEspace.getSelectedItem().toString(),
+                bundle.getString("titre"),indicSwitch,indicRatingBar,indicSpinner,nomIndicSwitch,nomIndicRatingBar,
+                nomIndicSpinner, getCurrentUserId());
     }
 
     protected String getCurrentUserId(){ return FirebaseAuth.getInstance().getCurrentUser().getUid(); }

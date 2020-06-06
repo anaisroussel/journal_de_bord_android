@@ -31,6 +31,7 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
     private static final int FRAGMENT_ACCUEIL = 1;
     private static final int FRAGMENT_PARAMS = 2;
     private static final int FRAGMENT_PROFILE = 3;
+    private static final int FRAGMENT_ESPACE = 4;
 
     public static Accueil newInstance() {
         return (new Accueil());
@@ -79,7 +80,8 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
             case R.id.mesDefis:
                 this.showDefisFragment();
                 return true;
-            case R.id.historique:
+            case R.id.mesEspaces:
+                this.showEspacesFragment();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -106,6 +108,10 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
                 break;
             case R.id.activity_main_drawer_profile:
                 this.showFragment(FRAGMENT_PROFILE);
+                break;
+            case R.id.activity_accueil_drawer_addEspace:
+                this.showFragment(FRAGMENT_ESPACE);
+                break;
             default:
                 break;
         }
@@ -135,6 +141,9 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
             case FRAGMENT_PROFILE:
                 this.showProfileFragment();
                 break;
+            case FRAGMENT_ESPACE:
+                this.showAddEspaceFragment();
+                break;
             default:
                 break;
         }
@@ -145,6 +154,10 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
     private void showNewsFragment(){
         this.addDefiFragment = AjoutDefi.newInstance();
         this.startTransactionFragment(this.addDefiFragment);
+    }
+
+    private void showAddEspaceFragment() {
+        this.startTransactionFragment(AjoutEspace.newInstance());
     }
 
     private void showProfileFragment(){
@@ -158,11 +171,12 @@ public class Accueil extends AppCompatActivity implements NavigationView.OnNavig
     }
 
     private void showDefisFragment(){
-        // Etape 1 : on récupère l'instance de MesDefis
         this.mesDefisFragment = MesDefis.newInstance();
-        System.out.println("Je suis dans le fragment accueil et j'ai ca comme Défis :"+ this.mesDefisFragment);
-        // Etape 2 : on montre le Fragment correspondant à la class "MesDéfis"
         this.startTransactionFragment(this.mesDefisFragment);
+    }
+
+    private void showEspacesFragment() {
+        this.startTransactionFragment(MesEspaces.newInstance());
     }
 
 
