@@ -99,10 +99,14 @@ public class AjoutDefiEtape2 extends Fragment {
                 String descriptionText = description.getText().toString();
 
                 if(date != null && !date.isEmpty() && isValidDate(date)) {
-                    // insertion en BDD
+                    if(mapEspace.get(spinnerChoixEspace.getSelectedItem()) != null) {
+                        // insertion en BDD
                     String key = insertDefiInDatabase(dateFormatDate,descriptionText,bundle, switchEtape2, spinnerEtape2, ratingBar, spinnerChoixEspace);
                     // changement de fragment : vers MonDefi créé
                     changeFragment(key);
+                    } else {
+                        Toast.makeText(getActivity(),"Veuillez créer un espace avant d'ajouter un défi",Toast.LENGTH_SHORT).show();
+                    }
 
                 } else {
                     Toast.makeText(getActivity(),"Veuillez entrer une date au format JJ/MM/AAAA",Toast.LENGTH_SHORT).show();
