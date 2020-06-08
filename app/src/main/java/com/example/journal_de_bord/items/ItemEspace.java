@@ -1,4 +1,4 @@
-package com.example.journal_de_bord;
+package com.example.journal_de_bord.items;
 
 import androidx.fragment.app.Fragment;
 

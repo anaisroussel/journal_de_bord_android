@@ -1,4 +1,4 @@
-package com.example.journal_de_bord;
+package com.example.journal_de_bord.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
+import com.example.journal_de_bord.items.ItemEspace;
+import com.example.journal_de_bord.R;
+
 import java.util.List;
 
 public class EspaceAdapter extends ArrayAdapter<ItemEspace> {

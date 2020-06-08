@@ -1,4 +1,4 @@
-package com.example.journal_de_bord;
+package com.example.journal_de_bord.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.example.journal_de_bord.items.ItemDefi;
+import com.example.journal_de_bord.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

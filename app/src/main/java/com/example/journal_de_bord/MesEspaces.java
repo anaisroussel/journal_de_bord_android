@@ -11,8 +11,12 @@ import android.widget.ListView;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import com.example.journal_de_bord.adapters.DefiAdapter;
+import com.example.journal_de_bord.adapters.EspaceAdapter;
 import com.example.journal_de_bord.api.DefiHelper;
 import com.example.journal_de_bord.api.EspaceHelper;
+import com.example.journal_de_bord.items.ItemDefi;
+import com.example.journal_de_bord.items.ItemEspace;
 import com.example.journal_de_bord.models.Defi;
 import com.example.journal_de_bord.models.Espace;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,7 +56,8 @@ public class MesEspaces extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
                 // si on appuie sur un ItemEspace on affiche la listes des Itemdefi
                 if(mListView.getItemAtPosition(position).getClass().equals(ItemEspace.class)) {
-                DefiHelper.getMesDefisByEspace(getCurrentUserId(),itemEspaces.get(position).getTitre(),
+                    System.out.println("get index :" + itemEspaces.get(position).getIndex());
+                DefiHelper.getMesDefisByIdEspace(getCurrentUserId(),itemEspaces.get(position).getIndex(),
                         instanceMesEspaces , null, new Consumer<List<ItemDefi>>() {
                             @Override
                             public void accept(final List<ItemDefi> itemEspaces) {
@@ -99,7 +104,7 @@ public class MesEspaces extends Fragment {
         System.out.println("addAllDefis : "+ this.itemDefis);
         return this.itemDefis;
     }
-    
+
     // Generic method that will replace and show a fragment inside the AccueilActivity Frame Layout
     private void startTransactionFragment(Fragment fragment) {
         if (!fragment.isVisible()) {

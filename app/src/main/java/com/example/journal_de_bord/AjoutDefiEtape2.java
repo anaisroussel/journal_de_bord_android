@@ -25,11 +25,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AjoutDefiEtape2 extends Fragment {
 
     private Fragment monDefiFragment;
+    private Map mapEspace = new HashMap<String, String>();
 
     public static AjoutDefiEtape2 newInstance() {
         return (new AjoutDefiEtape2());
@@ -71,6 +74,7 @@ public class AjoutDefiEtape2 extends Fragment {
                 // fill the spinner
                 List<String> spinnerArray =  new ArrayList<String>();
                 for(Espace espace : espaces) {
+                    mapEspace.put(espace.getNom(), espace.getId());
                     spinnerArray.add(espace.getNom());
                 }
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(
@@ -187,7 +191,7 @@ public class AjoutDefiEtape2 extends Fragment {
             nomIndicSpinner = bundle.getString("etSpinner");
         }
 
-        return DefiHelper.createDefiReturnKey(date,description, spinnerChoixEspace.getSelectedItem().toString(),
+        return DefiHelper.createDefiReturnKey(date,description, mapEspace.get(spinnerChoixEspace.getSelectedItem().toString()).toString(),
                 bundle.getString("titre"),indicSwitch,indicRatingBar,indicSpinner,nomIndicSwitch,nomIndicRatingBar,
                 nomIndicSpinner, getCurrentUserId());
     }

@@ -27,7 +27,7 @@
         android:layout_width="195dp"
         android:layout_height="327dp"
         android:layout_marginStart="84dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="84dp"
         android:src="@drawable/boussole"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +40,7 @@
     <Button
         android:id="@+id/button"
         android:layout_width="130dp"
-        android:layout_height="77dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="153dp"
         android:layout_marginTop="34dp"
         android:layout_marginEnd="154dp"

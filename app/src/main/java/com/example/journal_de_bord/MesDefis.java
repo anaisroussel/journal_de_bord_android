@@ -9,7 +9,9 @@ import android.widget.ListView;
 import androidx.core.util.Consumer;
 import androidx.fragment.app.Fragment;
 
+import com.example.journal_de_bord.adapters.DefiAdapter;
 import com.example.journal_de_bord.api.DefiHelper;
+import com.example.journal_de_bord.items.ItemDefi;
 import com.example.journal_de_bord.models.Defi;
 import com.google.firebase.auth.FirebaseAuth;
 

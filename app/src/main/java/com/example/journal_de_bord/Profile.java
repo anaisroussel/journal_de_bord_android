@@ -43,18 +43,10 @@ public class Profile extends Fragment {
         final EditText editTextUsername = rootView.findViewById(R.id.profile_activity_edit_text_username);
         final TextView textViewEmail = rootView.findViewById(R.id.profile_activity_text_view_email);
         final ProgressBar progressBar = rootView.findViewById(R.id.profile_activity_progress_bar);
-        final Button updateButton = rootView.findViewById(R.id.profile_activity_button_update);
         final Button signOutButton = rootView.findViewById(R.id.profile_activity_button_sign_out);
         final Button deleteButton = rootView.findViewById(R.id.profile_activity_button_delete);
 
         signOutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signOutUserFromFirebase();
-            }
-        });
-
-        updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signOutUserFromFirebase();

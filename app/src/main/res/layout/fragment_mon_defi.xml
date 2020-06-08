@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/monDefiLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/marbre_wallpaper"
@@ -12,20 +12,21 @@
         android:id="@+id/spinnerMonDefi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="76dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
         android:entries="@array/note"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/etSpinnerMonDefi"
         app:layout_constraintTop_toBottomOf="@+id/ratingBarMonDefi"></Spinner>
 
-    <EditText
+    <TextView
         android:id="@+id/descriptionMonDefi"
         android:layout_width="306dp"
-        android:layout_height="51dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="23dp"
+        android:textColor="#A49158"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateMondefi"></EditText>
+        app:layout_constraintTop_toBottomOf="@+id/dateMondefi"></TextView>
 
     <TextView
         android:id="@+id/dateMondefi"
@@ -47,50 +48,53 @@
         android:layout_marginTop="24dp"
         android:text="TextView"
         android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Switch
         android:id="@+id/switchMonDefi"
-        android:layout_width="99dp"
+        android:layout_width="wrap_content"
         android:layout_height="44dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="68dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/descriptionMonDefi" />
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="53dp"
+        app:layout_constraintStart_toEndOf="@+id/etSwitchMonDefi"
+        app:layout_constraintTop_toBottomOf="@+id/espaceMonDefi" />
 
     <TextView
         android:id="@+id/etSwitchMonDefi"
-        android:layout_width="167dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
         android:text="TextView"
         android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/descriptionMonDefi" />
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
     <TextView
         android:id="@+id/etSpinnerMonDefi"
-        android:layout_width="167dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="68dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
         android:text="TextView"
         android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ratingBarMonDefi" />
 
     <TextView
         android:id="@+id/etRatingBarMonDefi"
-        android:layout_width="207dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
         android:text="TextView"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.421"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etSwitchMonDefi" />
 
@@ -98,10 +102,40 @@
         android:id="@+id/ratingBarMonDefi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
-        android:isIndicator="true"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etRatingBarMonDefi" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="54dp"
+        android:text="Espace"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionMonDefi" />
+
+    <TextView
+        android:id="@+id/espaceMonDefi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="54dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/textView14"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionMonDefi" />
+
+    <Button
+        android:id="@+id/buttonModifIndic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="Modifier les valeurs des indicateurs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerMonDefi" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

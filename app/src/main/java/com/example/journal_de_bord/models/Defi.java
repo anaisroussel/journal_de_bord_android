@@ -8,6 +8,7 @@ public class Defi {
     private String id;
     private String iduser;
     private String title;
+    // l'id de l'espace
     private String espace;
     @Nullable private String description;
     private boolean indicateurSwitch;
@@ -100,4 +101,5 @@ public class Defi {
     public void setEspace(String espace) {
         this.espace = espace;
     }
+
 }

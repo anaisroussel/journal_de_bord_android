@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -17,10 +18,14 @@ import androidx.fragment.app.Fragment;
 
 
 import com.example.journal_de_bord.api.DefiHelper;
+import com.example.journal_de_bord.api.EspaceHelper;
 import com.example.journal_de_bord.models.Defi;
+import com.example.journal_de_bord.models.Espace;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MonDefi extends Fragment {
 
@@ -48,7 +53,8 @@ public class MonDefi extends Fragment {
         final Switch switchMonDefi = rootView.findViewById(R.id.switchMonDefi);
         final Spinner spinnerMonDefi = rootView.findViewById(R.id.spinnerMonDefi);
         final TextView desciptionTextView = rootView.findViewById(R.id.descriptionMonDefi);
-        //Bundle bundle = this.getArguments();
+        final TextView espaceTextView = rootView.findViewById(R.id.espaceMonDefi);
+        final Button buttonModif = rootView.findViewById(R.id.buttonModifIndic);
 
         textViewTitre.setVisibility(View.GONE);
         textViewDate.setVisibility(View.GONE);
@@ -59,6 +65,8 @@ public class MonDefi extends Fragment {
         spinnerMonDefi.setVisibility(View.GONE);
         ratingBar.setVisibility(View.GONE);
         desciptionTextView.setVisibility(View.GONE);
+        espaceTextView.setVisibility(View.GONE);
+        buttonModif.setVisibility(View.GONE);
 
         /**
          * Récupération du Defi en BDD
@@ -67,16 +75,27 @@ public class MonDefi extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void accept(Defi myDefi) {
-                System.out.println("dans le accept, defi vaut"+myDefi);
                 defi = myDefi;
+                // le defi a été chargé : on peut set les champs
                 textViewTitre.setText(defi.getTitle());
                 DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
                 textViewDate.setText(df.format(defi.getDate()));
                 desciptionTextView.setText(defi.getDescription());
+                desciptionTextView.setEnabled(false);
+                // on récupère le nom de l'espace
+                EspaceHelper.getEspace(defi.getEspace(), new Consumer<Espace>() {
+                    @Override
+                    public void accept(Espace espace) {
+                        espaceTextView.setText(espace.getNom());
+                    }
+                });
 
+                // Rendre les composants visibles une fois le chargement terminé
                 textViewTitre.setVisibility(View.VISIBLE);
                 textViewDate.setVisibility(View.VISIBLE);
                 desciptionTextView.setVisibility(View.VISIBLE);
+                espaceTextView.setVisibility(View.VISIBLE);
+                //buttonModif.setVisibility(View.VISIBLE);
 
                 System.out.println("defi.getNomIndicSwitch = "+defi.getNomIndicateurSwitch());
 
@@ -87,6 +106,8 @@ public class MonDefi extends Fragment {
                     // remplir les valeurs
                     switchTextView.setText(defi.getNomIndicateurSwitch());
                     switchMonDefi.setChecked(defi.isIndicateurSwitch());
+
+                    switchMonDefi.setEnabled(false);
                 }
                 if(defi.getNomIndicateurSpinner() != null && !defi.getNomIndicateurSpinner().isEmpty()) {
                     spinnerTextView.setVisibility(View.VISIBLE);
@@ -94,6 +115,8 @@ public class MonDefi extends Fragment {
                     // remplir les valeurs
                     spinnerTextView.setText(defi.getNomIndicateurSpinner());
                     fillSpinnerValue(spinnerMonDefi, defi.getIndicateurSpinner());
+
+                    spinnerMonDefi.setEnabled(false);
                 }
                 if(defi.getNomIndicateurStars() != null && !defi.getNomIndicateurStars().isEmpty()) {
                     ratingBarTextView.setVisibility(View.VISIBLE);
@@ -101,22 +124,65 @@ public class MonDefi extends Fragment {
                     // remplir les valeurs
                     ratingBarTextView.setText(defi.getNomIndicateurStars());
                     ratingBar.setRating(defi.getIndicateurStars());
+
+                    ratingBar.setEnabled(false);
                 }
+
+                buttonModif.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        /**
+                         * Impossible de faire fonctionner la suppression ou la mise à jour de données
+                         */
+                        //suppression
+                        /*DefiHelper.deleteDefi(defi.getId());
+                        startTransactionFragment(AccueilFragment.newInstance());*/
+                        // MAJ
+                        System.out.println(buttonModif.getText().toString());
+                        if(buttonModif.getText().toString().equalsIgnoreCase("Modifier les valeurs des indicateurs")) {
+                            ratingBar.setEnabled(true);
+                            spinnerMonDefi.setEnabled(true);
+                            switchMonDefi.setEnabled(true);
+                            buttonModif.setText("Enregistrer");
+                            // fillAllValuesSpinner();
+                        } else if(buttonModif.getText().toString() == "Enregistrer"){
+                            // cas enregistrer
+                            ratingBar.setEnabled(false);
+                            spinnerMonDefi.setEnabled(false);
+                            switchMonDefi.setEnabled(false);
+                            // enregistrement en BDD
+                            DefiHelper.updateValeursIndicateurs(defi.getId(), spinnerMonDefi.getSelectedItem().toString(),
+                                    switchMonDefi.isChecked(), ratingBar.getRating());
+
+                            buttonModif.setText("Modifier les valeurs des indicateurs");
+                        }
+                    }
+                });
             }
         });
 
         return rootView;
     }
 
+    // Generic method that will replace and show a fragment inside the AccueilActivity Frame Layout
+    private void startTransactionFragment(Fragment fragment) {
+        if (!fragment.isVisible()) {
+            // on remplace l'ancien fragment par le nouveau
+            getFragmentManager().beginTransaction().addToBackStack(null)
+                    .replace(R.id.activity_accueil_frame_layout, fragment).commit();
+        }
+    }
 
     private void fillSpinnerValue(Spinner spinner, String value) {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.note, android.R.layout.simple_spinner_item);
+        // fill the spinner
+        List<String> spinnerArray =  new ArrayList<String>();
+        if(value != null) {
+            spinnerArray.add(value);
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                getActivity(), android.R.layout.simple_spinner_item, spinnerArray);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        if (value != null) {
-            int spinnerPosition = adapter.getPosition(value);
-            spinner.setSelection(spinnerPosition);
-        }
     }
 
 }

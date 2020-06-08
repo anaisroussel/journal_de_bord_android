@@ -3,7 +3,7 @@ package com.example.journal_de_bord.api;
 import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
 
-import com.example.journal_de_bord.ItemEspace;
+import com.example.journal_de_bord.items.ItemEspace;
 import com.example.journal_de_bord.MesEspaces;
 import com.example.journal_de_bord.models.Espace;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,6 +29,19 @@ public class EspaceHelper {
 
     public static CollectionReference getEspacesCollection() {
         return FirebaseFirestore.getInstance().collection(COLLECTION_NAME);
+    }
+
+    public static void getEspace(String id, final Consumer<Espace> callback) {
+        EspaceHelper.getEspacesCollection().whereEqualTo("id",id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()) {
+                    callback.accept(task.getResult().toObjects(Espace.class).get(0));
+                } else {
+                    System.out.println("Error");
+                }
+            }
+        });
     }
 
     public static String createEspaceReturnKey(String name, String idUser) {

@@ -30,6 +30,7 @@ public class AjoutEspace extends Fragment {
             public void onClick(View v) {
                 if(editTextAjoutEspace.getText().toString() != null && !editTextAjoutEspace.getText().toString().isEmpty()) {
                     EspaceHelper.createEspaceReturnKey(editTextAjoutEspace.getText().toString(),getCurrentUserId());
+                    startTransactionFragment(MesEspaces.newInstance());
                 } else {
                     Toast.makeText(getActivity(),"Veuillez entrer un titre", Toast.LENGTH_SHORT).show();
                 }
@@ -37,6 +38,15 @@ public class AjoutEspace extends Fragment {
         });
 
         return rootView;
+    }
+
+    // Generic method that will replace and show a fragment inside the AccueilActivity Frame Layout
+    private void startTransactionFragment(Fragment fragment) {
+        if (!fragment.isVisible()) {
+            // on remplace l'ancien fragment par le nouveau
+            getFragmentManager().beginTransaction().addToBackStack(null)
+                    .replace(R.id.activity_accueil_frame_layout, fragment).commit();
+        }
     }
 
     protected String getCurrentUserId(){ return FirebaseAuth.getInstance().getCurrentUser().getUid(); }
